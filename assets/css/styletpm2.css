@@ -1,0 +1,22 @@
+#page
+{
+	margin: 0 auto;
+	background-color:lightgrey;
+	height:auto;
+}
+#content{
+	border-radius:5px;
+	width : 75%;
+    margin: auto;
+    padding: 10px;
+	/*height:auto;*/
+}
+#content1{
+	border-radius:5px;
+	margin-top:15px;
+	background-color:white;
+    width : 75%;
+    margin: auto;
+    padding: 10px;
+    /*height:auto;*/
+}

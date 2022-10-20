@@ -9,6 +9,17 @@
         $session=0;
         $listeMenuVue=vueListe($session);
     }
+
+    $mysqlClient=connex();
+    $decriProfil=listeProfil($mysqlClient);
+    $listeNameProfile=listeNameProfil($mysqlClient);
+    $countArticle=0;
+
+    $descri="";
+    foreach($decriProfil as $descriP)
+    {
+        $decri=$descriP['description'];
+    }
     
 ?>
 <!DOCTYPE html>
@@ -26,24 +37,60 @@
     <section class="categories-slider-area bg__white" style=" background-image:url(assets/img/star-sky.jpg); background-position: center; height: 1000px; width: 100%;color: white;">
         <header class="header black-bg">
             <div class="top-menu">
-                <ul class="nav pull-right top-menu">
-                    <?php if($_SESSION['admin']==0){ ?> 
-                        <li><a class="logout" href="login.php">Admin</a></li>
+                <nav class="navbar">
+                    <ul class="nav nav-pills">
+                        <?php foreach($listeNameProfile as $listeProfil){?>    
+                            <li class="nav-item">
+                                <a class="nav-link" href="acceuil.php?destination=<?php echo($listeProfil['id']); ?>"><?php echo($listeProfil['nameProfile']); ?>
+                                    <?php
+                                        $listeCount=countArticle($mysqlClient,$listeProfil['id']); 
+                                        foreach($listeCount as $listeC)
+                                        { 
+                                            $countArticle=$listeC['nonlue'];
+                                        }
+                                         
+                                        if(isset($_SESSION[$decri])==false)
+                                        {
+                                            if($countArticle>0){
+                                                echo('<a style="color:red">'.$countArticle.'</a>');
+                                            }
+                                        }
+                                        if(isset($_SESSION[$decri]) and $_SESSION[$decri]==0)
+                                        {
+                                            if($countArticle>0){
+                                                echo('<a style="color:red">'.$countArticle.'</a>');
+                                            }
+                                        }
+                                    ?>
+                                </a>
+                            </li>
+                        <?php } ?>
+                        <!--li class="nav-item">
+                            <a class="nav-link" href="acceuil.php?destination=1">Rubrique2</a>
+                        </li-->
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Rubrique3</a>
+                        </li>
+                    </ul>
+                    <?php if($_SESSION['admin']==0){ ?>    
+                        <form class="form-inline" action="login.php">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Admin</button>
+                        </form>
                     <?php } ?>
-                </ul>
-            </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <?php if($_SESSION['admin']!=0){ ?>    
-                    <form action="ajout.php" method="POST">    
-                        <button type="submit" class="btn btn-primary me-md-2" name="insert" value="2" style="margin-left:-20%">Insertion</button>
-                    </form>
+                    <?php if($_SESSION['admin']!=0){ ?>    
+                        <form class="form-inline" action="ajout.php" method="GET">    
+                            <button type="submit" class="btn btn-outline-primary my-2 my-sm-0" name="insert" value="2" style="margin-left:-20%">Insertion</button>
+                        </form>
 
-                    <form action="deconnecte.php">
-                        <button class="btn btn-primary me-md-2" type="submit">Se Deconnecter</button>
-                    </form>
-                <?php } ?>
+                        <form class="form-inline" action="deconnecte.php">
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Se Deconnecter</button>
+                        </form>
+                    <?php } ?>
+                </nav>
             </div>
+            
         </header>
+
         <div class="container">
             <div class="row">
                 <!-- Start Left Feature -->

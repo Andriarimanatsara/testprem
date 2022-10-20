@@ -16,13 +16,22 @@
 
 <body>
     <?php
-        if(isset($_POST["insert"])){
+        if(isset($_GET["insert"])){
     ?>  
         <section class="contact-clean" style="height: 1000px;">
-            <form action="traitAjout.php" method="post">
+            <form action="traitAjout.php" method="post" enctype="multipart/form-data">
                 <h2 class="text-center">Insérez les données</h2>
                 <div class="mb-3"><input class="border rounded shadow-sm form-control" type="text" name="nom" placeholder="Menu" required>
                     <input class="border rounded shadow-sm form-control" type="text" name="lien" placeholder="Lien" style="margin-top: 12px;" required>
+                    
+                    <input type="hidden" name="insert" value="<?php echo($_GET["insert"]);?>">
+                    <!--label for="formFile" class="form-label">Insertion Fichier</label>
+                    <input class="form-control" type="file" name="photo" id="formFile" -->
+                    <?php /*if(isset($_GET['rep'])){?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $_GET['rep']?>
+                        </div>
+                    <?php }*/ ?>
                     <p style="margin-top: 5%;"> <b> Admin<input class="form-check-input mt-0" type="radio" name="Check" value="1" aria-label="Checkbox for following text input" required></b><b style="float: right;"> Utilisateur<input class="form-check-input mt-0" type="radio" name="Check" value="0" aria-label="Checkbox for following text input" required></b></p>
                     <button type="submit" class="btn btn-primary" >Insertion</button>
                 </div>
